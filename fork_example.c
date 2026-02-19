@@ -1,19 +1,26 @@
-# include <stdio.h>
-# include <unistd.h>
-# include <sys/wait.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/wait.h>
 
 int main() {
-    pid_t pid = fork();
+    int N = 3; 
 
-    if (pid < 0) {
-        fprintf(stderr, "Fork falhou !\n");
-        return 1;
-    } else if (pid == 0) {
-        printf(" Eu sou o filho ! Meu PID e %d , meu pai e % d .\n ", getpid (), getppid() );
-    } else {
-        printf ( " Eu sou o pai ! Meu PID e %d , criei o filho % d .\n " , getpid () , pid );
-        wait ( NULL );
-        printf ("Meu filho terminou , agora eu posso terminar .\n ");
-            }
+    for(int i = 0; i < N; i++) {
+        pid_t pid = fork();
+
+        if (pid < 0) {
+            fprintf(stderr, "Fork falhou!\n");
+            return 1;
+        } else if (pid == 0) {
+            // Código do Filho
+            printf("Filho: PID %d, meu pai e pai %d\n", getpid(), getppid());
+        } else {
+            // Código do Pai
+            printf("Pai: PID %d, criou o filho %d\n", getpid(), pid);
+            wait(NULL); 
+            printf("Filho terminou, pai saindo do loop.\n");
+            //break; 
+        }
+    }
     return 0;
 }
