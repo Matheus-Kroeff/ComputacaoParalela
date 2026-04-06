@@ -12,12 +12,6 @@ void* thread_func(void* arg) {
     printf("Thread %ld iniciando o trabalho...\n", thread_id);
     
     for (int i = 0; i < INCREMENTS_PER_THREAD; ++i) {
-        // A operacao "counter++" nao e atomica!
-        // Ela envolve 3 passos:
-        // 1. Ler o valor de 'counter' da memoria para um registrador.
-        // 2. Incrementar o valor no registrador.
-        // 3. Escrever o novo valor de volta na memoria.
-        // Uma outra thread pode interferir entre esses passos!
         counter++;
     }
     return NULL;
